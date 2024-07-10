@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +12,8 @@ builder.Services.AddMediatR(conf=>
     conf.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
 
+builder.Services.AddMarten();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,6 +23,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.MapCarter();
 
 app.Run();
