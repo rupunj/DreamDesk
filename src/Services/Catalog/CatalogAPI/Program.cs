@@ -7,12 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCarter();
 builder.Services.AddMediatR(conf=>
 {
     conf.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
 
-builder.Services.AddMarten();
+builder.Services.AddMarten(options => 
+{
+    options.Connection(builder.Configuration.GetConnectionString("Database")!);
+}).UseLightweightSessions();
 
 var app = builder.Build();
 
