@@ -6,9 +6,11 @@ services:
   catalogDB:
    image: postgres
    environment:
-    POSTGRES_PASSWORD: abc@123+-
-    POSTGRES_USER: postgres
-    POSTGRES_DB: CatalogDB
+      POSTGRES_PASSWORD: abc@123+-
+      POSTGRES_USER: postgres
+      POSTGRES_DB: CatalogDB
+   ports :
+    - 5432:5432
 
 volumes:
   postgress_catalog:
