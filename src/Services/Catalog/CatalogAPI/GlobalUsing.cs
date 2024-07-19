@@ -4,3 +4,4 @@ global using Carter;
 global using Mapster;
 global using Marten;
 global using CatalogAPI.Exceptions;
+global using FluentValidation;

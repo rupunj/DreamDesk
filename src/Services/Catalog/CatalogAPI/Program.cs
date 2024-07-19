@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using BuildingBlocks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +12,15 @@ builder.Services.AddCarter();
 builder.Services.AddMediatR(conf=>
 {
     conf.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    conf.AddOpenBehavior(typeof(ValidationBehaviour<,>));
 });
 
 builder.Services.AddMarten(options => 
 {
     options.Connection(builder.Configuration.GetConnectionString("Databases")!);
 }).UseLightweightSessions();
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 var app = builder.Build();
 
