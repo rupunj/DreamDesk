@@ -5,12 +5,10 @@ public record UpdateProductCommand(Guid Id ,string Name,List<string> Catagory,st
 
 public record UpdateProductResult(bool Success);
 
-internal class UpdateProductHandler(IDocumentSession  documentSession ,ILogger<UpdateProductHandler> logger) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
+internal class UpdateProductHandler(IDocumentSession  documentSession) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
     public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-       logger.LogInformation("UpdateProductHandler.Handle Called with {@Command}", command);
-
        var product = await documentSession.LoadAsync<Product>(command.Id);
        if (product is null)
        {

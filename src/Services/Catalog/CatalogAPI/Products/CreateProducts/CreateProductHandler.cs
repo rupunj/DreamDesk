@@ -2,11 +2,11 @@
 
 public record CreateProductCommand(string Name,List<string> Catagory,string Discription,string ImageFile,decimal Price ):ICommand<CreateProductResult>;
 public record CreateProductResult(Guid Id);
-public class CreateProductHandler(IDocumentSession documentSession,ILogger<CreateProductHandler> logger) : ICommandHandler<CreateProductCommand, CreateProductResult>
+public class CreateProductHandler(IDocumentSession documentSession) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-      logger.LogInformation("CreateProductHandler called with {@Command}",command);
+     
        var product = new Product
        {
          Name = command.Name,

@@ -1,9 +1,5 @@
-using System.ComponentModel;
-using System.Security.Cryptography;
-using BuildingBlocks;
 using BuildingBlocks.Exceptions.Handler;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using CatalogAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +13,7 @@ builder.Services.AddMediatR(conf=>
 {
     conf.RegisterServicesFromAssembly(typeof(Program).Assembly);
     conf.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+    conf.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 builder.Services.AddMarten(options => 
@@ -26,6 +23,11 @@ builder.Services.AddMarten(options =>
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
 
 var app = builder.Build();
 
