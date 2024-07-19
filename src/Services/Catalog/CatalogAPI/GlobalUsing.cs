@@ -5,3 +5,4 @@ global using Mapster;
 global using Marten;
 global using CatalogAPI.Exceptions;
 global using FluentValidation;
+global using BuildingBlocks.Behaviours;

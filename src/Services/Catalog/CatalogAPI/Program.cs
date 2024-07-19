@@ -1,5 +1,9 @@
 using System.ComponentModel;
+using System.Security.Cryptography;
 using BuildingBlocks;
+using BuildingBlocks.Exceptions.Handler;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,7 @@ builder.Services.AddMarten(options =>
 }).UseLightweightSessions();
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
 
@@ -32,5 +37,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapCarter();
+
+app.UseExceptionHandler(options=>{});
 
 app.Run();

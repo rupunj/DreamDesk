@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace CatalogAPI.Products.CreateProducts;
+﻿namespace CatalogAPI.Products.CreateProducts;
 
 public record CreateProductCommand(string Name,List<string> Catagory,string Discription,string ImageFile,decimal Price ):ICommand<CreateProductResult>;
 public record CreateProductResult(Guid Id);

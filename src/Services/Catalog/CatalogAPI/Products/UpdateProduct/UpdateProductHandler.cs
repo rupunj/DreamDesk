@@ -14,7 +14,7 @@ internal class UpdateProductHandler(IDocumentSession  documentSession ,ILogger<U
        var product = await documentSession.LoadAsync<Product>(command.Id);
        if (product is null)
        {
-           throw new ProductnotFoundException();
+           throw new ProductnotFoundException(command.Id);
        }
 
        product.Name = command.Name;
