@@ -3,12 +3,12 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-ENV ASPNETCORE_URLS=http://+:5153
 
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG configuration=Release
 WORKDIR /src
+COPY ["src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj","src/BuildingBlocks/BuildingBlocks/"] 
 COPY ["src/Services/Catalog/CatalogAPI/CatalogAPI.csproj", "src/Services/Catalog/CatalogAPI/"]
 RUN dotnet restore "src/Services/Catalog/CatalogAPI/CatalogAPI.csproj"
 COPY . .
