@@ -12,6 +12,15 @@ services:
    ports :
     - 5432:5432
 
+  basketDB:
+   image: postgres
+   environment:
+      POSTGRES_PASSWORD: abc@123+-
+      POSTGRES_USER: postgres
+      POSTGRES_DB: BasketDB
+   ports :
+    - 5433:5432
+
   catalogapi:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
@@ -29,3 +38,4 @@ services:
 
 volumes:
   postgress_catalog:
+  postgress_basket:

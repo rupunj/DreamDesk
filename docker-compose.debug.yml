@@ -12,6 +12,16 @@ services:
     restart: always
     volumes:
       - postgress_catalog:/var/lib/postgresql/data/
+    
+  basketDB:
+    container_name: basketDB
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=abc@123+-
+      - POSTGRES_DB=BasketDB
+    restart: always
+    volumes:
+      - postgress_basket:/var/lib/postgresql/data/
 
   catalogapi:
     environment:

@@ -1,5 +1,7 @@
 
 
+using BuildingBlocks.Exceptions.Handler;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +17,15 @@ builder.Services.AddMediatR(conf =>
     conf.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
+builder.Services.AddMarten(options => 
+{
+    options.Connection(builder.Configuration.GetConnectionString("Databases")!);
+    options.Schema.For<ShopingCart>().Identity(x=>x.Username);
+}).UseLightweightSessions();
+
+builder.Services.AddScoped<IBasketRepository,BasketRepository>();
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.MapCarter();
+app.UseExceptionHandler(options => {});
 
 app.Run();
 
