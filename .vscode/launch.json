@@ -35,7 +35,7 @@
             "request": "launch",
             "preLaunchTask": "docker-run: debug",
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Basket/BasketApi/BasketApi.csproj"
+                "appProject": "${workspaceFolder}/src/Services/Discount/DiscountGRPC/DiscountGRPC.csproj"
             }
         }
     ]

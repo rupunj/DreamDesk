@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Reflection.Metadata.Ecma335;
-using DiscountGRPC.Data;
+﻿using DiscountGRPC.Data;
 using DiscountGRPC.Models;
 using Grpc.Core;
 using Mapster;
@@ -58,9 +56,20 @@ public class DiscountService(DiscountContext discountContext ,ILogger<DiscountSe
         var couponModel = coupon.Adapt<CouponModel>();
         return couponModel;
     }
-    public override Task<DeleteDiscpountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
+    public override async Task<DeleteDiscpountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
     {
-        return base.DeleteDiscount(request, context);
+        var coupon = await discountContext.Coupons
+                        .FirstOrDefaultAsync(x => x.ProductName == request.ProductName);
+
+        if (coupon is null)
+        {
+            throw new RpcException(new Status(StatusCode.NotFound,$"Discount With Product Name {request.ProductName} is not found"));
+        }
+        discountContext.Coupons.Remove(coupon);
+        await discountContext.SaveChangesAsync();
+
+        logger.LogInformation("DiscountService DeleteDiscount {productName} has been deleted", coupon.ProductName);
+        return new DeleteDiscpountResponse{Success = true};
     }
 
 }
